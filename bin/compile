@@ -169,10 +169,11 @@ mkdir -p "$BUILD_DIR/bin"
 cp "$VENDORED_NODE/bin/node" "$BUILD_DIR/bin/node"
 
 # download/unpack GDAL binaries
+GDAL_PACKAGE="https://s3.amazonaws.com/localdata-public/misc/downloads/gdal_heroku.tar.gz"
+GDAL_VENDOR="vendor/gdal"
 echo "-----> Fetching GDAL binaries"
-curl -L "https://s3.amazonaws.com/localdata-public/misc/downloads/gdal_heroku.tar.gz" > gdal_heroku.tar.gz
-tar xzf gdal_heroku.tar.gz
-PATH="$BUILD_DIR/gdal/bin:$PATH"
+mkdir -p $BUILD_DIR/$AWESOME_VM_VENDOR
+curl $GDAL_PACKAGE -o - | tar -xz -C $BUILD_DIR/$GDAL_VENDOR -f -
 
 # setting up paths for building
 PATH="$VENDORED_SCONS:$VENDORED_NODE/bin:$PATH"
