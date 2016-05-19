@@ -7,6 +7,7 @@ set -e
 # debug
 # set -x
 
+
 # clean up leaking environment
 unset GIT_DIR
 
@@ -36,6 +37,16 @@ function indent() {
     Darwin) sed -l "$c";;
     *)      sed -u "$c";;
   esac
+}
+
+function package_download() {
+  engine="$1"
+  version="$2"
+  location="$3"
+
+  mkdir -p $location
+  package="http://${S3_BUCKET}.s3.amazonaws.com/$engine-$version.tgz"
+  curl $package -s -o - | tar xzf - -C $location
 }
 
 # s3 packages
